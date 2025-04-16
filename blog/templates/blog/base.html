@@ -8,62 +8,78 @@
     <title>{% block title %}Blog{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <nav>
+    <header class="main-header">
+        <nav class="nav-container">
             <div class="nav-brand">
                 <i class="fas fa-pen-fancy"></i>
-                <a href="{% url 'post_list' %}">Professional Blog</a>
+                <a href="{% url 'post_list' %}">DevBlog</a>
             </div>
             <div class="nav-links">
-                <a href="{% url 'post_list' %}"><i class="fas fa-home"></i> Home</a>
+                <a href="{% url 'post_list' %}" class="nav-link"><i class="fas fa-home"></i> Home</a>
                 {% if user.is_authenticated %}
-                    <a href="{% url 'post_create' %}"><i class="fas fa-plus"></i> New Post</a>
-                    <a href="/admin/"><i class="fas fa-cog"></i> Admin</a>
+                    <a href="{% url 'post_create' %}" class="nav-link"><i class="fas fa-plus"></i> New Post</a>
+                    <a href="/admin/" class="nav-link"><i class="fas fa-cog"></i> Admin</a>
                     <span class="user-info"><i class="fas fa-user"></i> {{ user.username }}</span>
                 {% endif %}
             </div>
         </nav>
     </header>
-    <main>
+
+    <main class="main-content">
         {% if messages %}
         <div class="messages">
             {% for message in messages %}
             <div class="alert alert-{{ message.tags }}">
                 {{ message }}
+                <button class="close-button"><i class="fas fa-times"></i></button>
             </div>
             {% endfor %}
         </div>
         {% endif %}
+        
         {% block content %}
         {% endblock %}
     </main>
-    <footer>
+
+    <footer class="main-footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h3>About</h3>
-                <p>Professional blog sharing insights and knowledge.</p>
+                <h3>About DevBlog</h3>
+                <p>A platform for developers to share knowledge and experiences.</p>
             </div>
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <a href="{% url 'post_list' %}">Home</a>
                 {% if user.is_authenticated %}
-                <a href="{% url 'post_create' %}">New Post</a>
+                <a href="{% url 'post_create' %}">Write Post</a>
                 {% endif %}
             </div>
             <div class="footer-section">
-                <h3>Follow Us</h3>
+                <h3>Connect</h3>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2024 Professional Blog. All rights reserved.</p>
+            <p>&copy; {% now "Y" %} DevBlog. Built with Django.</p>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const closeButtons = document.querySelectorAll('.close-button');
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.parentElement.remove();
+                });
+            });
+        });
+    </script>
 </body>
 </html>
