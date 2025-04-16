@@ -12,6 +12,9 @@
         <span>Category: {{ post.category.name }}</span>
     </div>
     <div class="post-content">
+        {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+        {% endif %}
         {{ post.content|linebreaks }}
     </div>
     
