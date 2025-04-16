@@ -4,8 +4,13 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
+<div class="post-header">
+    {% if post.image %}
+    <div class="featured-image" style="background-image: url('{{ post.image.url }}')"></div>
+    {% endif %}
+</div>
 <article class="post-detail">
-    <h1>{{ post.title }}</h1>
+    <h1 class="post-title">{{ post.title }}</h1>
     <div class="post-meta">
         <span>By {{ post.author }}</span>
         <span>{{ post.created_on|date:"F d, Y" }}</span>
