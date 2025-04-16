@@ -23,6 +23,16 @@ class PostDetail(DetailView):
         context = super().get_context_data(**kwargs)
         context['comment_form'] = CommentForm()
         return context
+        
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = self.object
+            comment.save()
+            return self.render_to_response(self.get_context_data(comment_submitted=True))
+        return self.render_to_response(self.get_context_data(comment_form=form))
 
 class PostCreate(LoginRequiredMixin, CreateView):
     model = Post

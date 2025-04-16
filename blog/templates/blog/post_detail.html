@@ -36,10 +36,21 @@
 
         <div class="comment-form">
             <h4>Add a comment</h4>
+            {% if comment_submitted %}
+                <div class="success-message">Thank you! Your comment has been posted.</div>
+            {% endif %}
             <form method="post">
                 {% csrf_token %}
-                {{ comment_form.as_p }}
-                <button type="submit" class="btn">Submit</button>
+                {% for field in comment_form %}
+                <div class="form-field">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                    <div class="error-message">{{ field.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn">Submit Comment</button>
             </form>
         </div>
     </section>
